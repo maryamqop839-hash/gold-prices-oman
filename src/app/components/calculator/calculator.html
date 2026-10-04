@@ -1,0 +1,46 @@
+<section id="calculator" class="bg-yellow-50 py-12">
+  <div class="max-w-3xl mx-auto px-4">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">حاسبة الذهب</h2>
+    <p class="text-gray-600 mb-8">اختاري العيار وأدخلي الوزن لتقدير القيمة الإجمالية.</p>
+
+    <div class="bg-white rounded-2xl shadow-md p-6 grid gap-4 md:grid-cols-3">
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">العيار</label>
+        <select [(ngModel)]="selectedKarat" class="w-full border border-gray-300 rounded-lg p-2">
+          @for (k of karats; track k) {
+            <option [value]="k">عيار {{ k }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">الوزن (غرام)</label>
+        <input type="number" min="0" [(ngModel)]="weight" placeholder="مثال: 10"
+               class="w-full border border-gray-300 rounded-lg p-2" />
+      </div>
+
+      <div class="flex items-end">
+        <button (click)="calculate()"
+                class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg p-2">
+          احسب
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      @if (result() !== null) {
+        <div class="bg-white border-2 border-yellow-500 rounded-2xl p-6 text-center">
+          <p class="text-gray-600">القيمة الإجمالية التقديرية</p>
+          <p class="text-4xl font-bold text-yellow-700 mt-2">
+            {{ result() | number: '1.3-3' }} ر.ع.
+          </p>
+        </div>
+      } @else {
+        <div class="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center text-gray-500">
+          اختاري العيار وأدخلي الوزن ثم اضغطي "احسب".
+        </div>
+      }
+    </div>
+  </div>
+</section>

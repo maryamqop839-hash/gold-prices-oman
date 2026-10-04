@@ -1,0 +1,34 @@
+<section id="top" class="bg-gradient-to-l from-yellow-500 via-yellow-600 to-amber-800 text-white">
+  <div class="max-w-6xl mx-auto px-4 pt-6 pb-12">
+
+    <!-- مسار التنقل -->
+    <nav class="text-sm text-yellow-100 mb-8">
+      <a href="#top" class="hover:underline">الرئيسية</a>
+      <span class="mx-2">/</span>
+      <span>أسعار الذهب في عُمان</span>
+    </nav>
+
+    <!-- الشارة -->
+    <span class="inline-block bg-white/20 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+      تحديث يومي
+    </span>
+
+    <!-- العنوان والوصف -->
+    <h1 class="text-3xl md:text-5xl font-bold mb-4">
+      لوحة متابعة أسعار الذهب في عُمان
+    </h1>
+    <p class="text-lg text-yellow-50 max-w-2xl">
+      تابعي أسعار الذهب لعيارات 18 و21 و22 و24 قيراط، واحسبي قيمة الذهب حسب الوزن، وشاهدي تغير الأسعار خلال آخر 30 يومًا.
+    </p>
+
+  </div>
+
+  <!-- شريط المعلومات -->
+  <div class="bg-black/20">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-x-8 gap-y-1 text-sm">
+      <span>🕒 آخر تحديث: {{ today | date: 'yyyy/MM/dd' }}</span>
+      <span>📍 السوق: مسقط، سلطنة عُمان</span>
+      <span>💰 العملة: ريال عُماني (OMR)</span>
+    </div>
+  </div>
+</section>

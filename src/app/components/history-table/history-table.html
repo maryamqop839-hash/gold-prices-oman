@@ -1,0 +1,29 @@
+<section id="history" class="max-w-6xl mx-auto px-4 py-12">
+  <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">سجل الأسعار</h2>
+  <p class="text-gray-600 mb-6">أسعار الغرام لآخر 30 يومًا بالريال العُماني.</p>
+
+  <!-- overflow-x-auto: تمرير أفقي في الشاشات الصغيرة -->
+  <div class="overflow-x-auto bg-white rounded-2xl shadow-md">
+    <table class="w-full text-center min-w-[500px]">
+      <thead class="bg-yellow-600 text-white">
+        <tr>
+          <th class="p-3">التاريخ</th>
+          <th class="p-3">18 قيراط</th>
+          <th class="p-3">21 قيراط</th>
+          <th class="p-3">22 قيراط</th>
+          <th class="p-3">24 قيراط</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track row.date) {
+          <tr class="odd:bg-white even:bg-yellow-50 border-b border-yellow-100">
+            <td class="p-3 font-semibold">{{ row.date | date: 'yyyy/MM/dd' }}</td>
+            @for (price of row.prices; track $index) {
+              <td class="p-3">{{ price | number: '1.3-3' }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
