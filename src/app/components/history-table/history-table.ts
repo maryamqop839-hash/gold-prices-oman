@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GoldData } from '../../services/gold-data';
+import { I18n } from '../../services/i18n';
 
 @Component({
   selector: 'app-history-table',
@@ -9,17 +10,21 @@ import { GoldData } from '../../services/gold-data';
   styleUrl: './history-table.css',
 })
 export class HistoryTable {
+  i18n = inject(I18n);
   private gold = inject(GoldData);
 
   karats = [18, 21, 22, 24];
 
-  // نجمع 30 يوم، وكل يوم فيه أسعار العيارات الأربعة
+  // 30 يوم، وكل يوم فيه أسعار العيارات الأربعة (اليوم أول صف)
   rows = this.buildRows();
+    expanded = signal(false);
+
+  // أول 7 صفوف (اليوم + 6 أيام) أو كل الصفوف إذا انضغط الزر
+  visibleRows = computed(() => (this.expanded() ? this.rows : this.rows.slice(0, 7)));
 
   private buildRows() {
     const byKarat = this.karats.map((k) => this.gold.getHistory(k));
 
-    // نعكس الترتيب عشان اليوم يظهر في أول الجدول
     return byKarat[0]
       .map((item, i) => ({
         date: item.date,

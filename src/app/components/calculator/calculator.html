@@ -1,44 +1,102 @@
-<section id="calculator" class="bg-yellow-50 py-12">
-  <div class="max-w-3xl mx-auto px-4">
-    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">حاسبة الذهب</h2>
-    <p class="text-gray-600 mb-8">اختاري العيار وأدخلي الوزن لتقدير القيمة الإجمالية.</p>
+<section id="calculator" class="relative py-16">
+  <div class="max-w-4xl mx-auto px-4">
 
-    <div class="bg-white rounded-2xl shadow-md p-6 grid gap-4 md:grid-cols-3">
-
-      <div>
-        <label class="block text-sm font-semibold mb-1">العيار</label>
-        <select [(ngModel)]="selectedKarat" class="w-full border border-gray-300 rounded-lg p-2">
-          @for (k of karats; track k) {
-            <option [value]="k">عيار {{ k }}</option>
-          }
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold mb-1">الوزن (غرام)</label>
-        <input type="number" min="0" [(ngModel)]="weight" placeholder="مثال: 10"
-               class="w-full border border-gray-300 rounded-lg p-2" />
-      </div>
-
-      <div class="flex items-end">
-        <button (click)="calculate()"
-                class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg p-2">
-          احسب
-        </button>
-      </div>
+    <!-- العنوان -->
+    <div class="mb-10">
+      <h2 class="text-3xl md:text-4xl font-black text-gold mb-3">{{ i18n.t('calc.title') }}</h2>
+      <div class="w-16 h-1 rounded-full bg-linear-to-r from-gold-300 to-gold-600 mb-4"></div>
+      <p class="text-ink-700/70 dark:text-gray-400">{{ i18n.t('calc.desc') }}</p>
     </div>
 
+    <!-- النموذج -->
+    <div class="rounded-3xl p-6 md:p-8 border border-black/5 dark:border-white/10
+                bg-white/70 dark:bg-white/5 backdrop-blur-xl shadow-xl shadow-black/5">
+
+      <!-- العيار -->
+      <p class="text-sm font-semibold mb-3 text-ink-700 dark:text-gray-300">{{ i18n.t('calc.karat') }}</p>
+      <div class="flex flex-wrap gap-2 mb-8">
+        @for (k of karats; track k) {
+          <button type="button" (click)="selectedKarat.set(k)"
+                  class="min-w-24 px-5 py-2.5 rounded-full font-bold border transition"
+                  [class]="selectedKarat() === k
+                    ? 'bg-linear-to-br from-gold-300 to-gold-600 text-ink-900 border-transparent shadow-md'
+                    : 'border-gold-500/30 text-ink-700 dark:text-gray-300 hover:bg-gold-500/15'">
+            {{ i18n.t('prices.karat') }} {{ k }}
+          </button>
+        }
+      </div>
+
+      <!-- الوزن -->
+      <label for="weight" class="block text-sm font-semibold mb-3 text-ink-700 dark:text-gray-300">
+        {{ i18n.t('calc.weight') }}
+      </label>
+      <div class="relative mb-4">
+        <input id="weight" type="number" min="0" step="any" inputmode="decimal"
+               [ngModel]="weight()" (ngModelChange)="weight.set($event)"
+               (keyup.enter)="calculate()"
+               [placeholder]="i18n.t('calc.placeholder')"
+               class="w-full rounded-2xl px-5 pe-20 py-4 text-2xl font-bold
+                      bg-white dark:bg-ink-800 text-ink-900 dark:text-white
+                      border border-black/10 dark:border-white/10
+                      focus:outline-none focus:ring-2 focus:ring-gold-500/60" />
+        <span class="absolute inset-y-0 end-5 flex items-center text-sm font-semibold text-gold-700 dark:text-gold-300">
+          {{ i18n.t('calc.gram') }}
+        </span>
+      </div>
+
+      <!-- أوزان سريعة -->
+      <div class="flex flex-wrap items-center gap-2 mb-8">
+        <span class="text-xs text-ink-700/60 dark:text-gray-400">{{ i18n.t('calc.quick') }}</span>
+        @for (w of quickWeights; track w) {
+          <button type="button" (click)="weight.set(w)"
+                  class="px-3 py-1 rounded-full text-sm border border-gold-500/30
+                         text-gold-700 dark:text-gold-300 hover:bg-gold-500/15 transition">
+            {{ w }}
+          </button>
+        }
+      </div>
+
+      <!-- زر الحساب -->
+      <button type="button" (click)="calculate()"
+              class="w-full py-4 rounded-2xl font-black text-lg text-ink-900
+                     bg-linear-to-br from-gold-300 to-gold-600
+                     shadow-lg shadow-gold-500/30 hover:-translate-y-0.5 hover:shadow-xl transition">
+        {{ i18n.t('calc.button') }}
+      </button>
+
+      @if (error()) {
+        <p class="mt-3 text-sm text-red-600 dark:text-red-400">{{ i18n.t('calc.error') }}</p>
+      }
+    </div>
+
+    <!-- النتيجة / الحالة الفارغة -->
     <div class="mt-6">
-      @if (result() !== null) {
-        <div class="bg-white border-2 border-yellow-500 rounded-2xl p-6 text-center">
-          <p class="text-gray-600">القيمة الإجمالية التقديرية</p>
-          <p class="text-4xl font-bold text-yellow-700 mt-2">
-            {{ result() | number: '1.3-3' }} ر.ع.
+      @if (result(); as r) {
+        <div class="relative overflow-hidden rounded-3xl p-8 text-center text-ink-900
+                    bg-linear-to-br from-gold-300 via-gold-500 to-gold-700
+                    shadow-2xl shadow-gold-500/30">
+          <div class="absolute -top-16 -end-16 w-48 h-48 rounded-full bg-white/25 blur-2xl"></div>
+
+          <p class="relative font-semibold opacity-80">{{ i18n.t('calc.result') }}</p>
+          <p class="relative mt-2 text-5xl md:text-6xl font-black" dir="ltr">
+            {{ r.total | number: '1.3-3' }}
           </p>
+          <p class="relative mt-1 font-semibold">{{ i18n.t('unit.omr') }}</p>
+
+          <p class="relative mt-5 text-sm opacity-80">
+            {{ i18n.t('prices.karat') }} {{ r.karat }} · {{ r.weight }} {{ i18n.t('calc.gram') }} × {{ r.perGram | number: '1.3-3' }}
+          </p>
+          <p class="relative mt-1 text-xs opacity-70">{{ i18n.t('calc.note') }}</p>
         </div>
       } @else {
-        <div class="bg-white border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center text-gray-500">
-          اختاري العيار وأدخلي الوزن ثم اضغطي "احسب".
+        <div class="rounded-3xl p-8 text-center border-2 border-dashed border-gold-500/30
+                    text-ink-700/60 dark:text-gray-400">
+          <svg class="w-10 h-10 mx-auto mb-3 text-gold-500" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2" />
+            <path d="M8 7h8M8 12h2M12 12h2M16 12h0M8 16h2M12 16h2M16 16h0" />
+          </svg>
+          {{ i18n.t('calc.empty') }}
         </div>
       }
     </div>

@@ -1,19 +1,36 @@
-<footer class="bg-amber-900 text-yellow-50 mt-12">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-center">
+<footer class="relative mt-16 bg-ink-900 text-gray-300">
 
-    <p class="text-xl font-bold mb-2">🪙 الذهب العُماني</p>
-    <p class="text-yellow-100 text-sm mb-4">
-      لوحة متابعة أسعار الذهب في سلطنة عُمان - مسقط
-    </p>
+  <!-- خط ذهبي علوي -->
+  <div class="h-1 bg-linear-to-r from-transparent via-gold-500 to-transparent"></div>
 
-    <hr class="border-yellow-700 mb-4" />
+  <div class="max-w-6xl mx-auto px-4 py-12 grid gap-10 md:grid-cols-2">
 
-    <p class="text-sm text-yellow-200">
-      جميع الحقوق محفوظة © 2026 الذهب العُماني
-    </p>
-    <p class="text-xs text-yellow-300 mt-1">
-      الأسعار المعروضة بيانات تجريبية لأغراض التدريب فقط.
-    </p>
+    <!-- الشعار والوصف -->
+    <div>
+      <div class="flex items-center gap-3 mb-4">
+        <span class="grid place-items-center w-10 h-10 rounded-xl font-black text-ink-900
+                     bg-linear-to-br from-gold-300 to-gold-600 shadow-md">Au</span>
+        <span class="text-xl font-extrabold text-gold">{{ i18n.t('brand') }}</span>
+      </div>
+      <p class="max-w-sm text-gray-400 leading-relaxed">{{ i18n.t('footer.desc') }}</p>
+    </div>
 
+    <!-- الروابط -->
+    <div>
+      <p class="font-bold text-white mb-4">{{ i18n.t('footer.links') }}</p>
+      <ul class="space-y-2">
+        <li><a href="#prices" class="hover:text-gold-300 transition">{{ i18n.t('nav.prices') }}</a></li>
+        <li><a href="#calculator" class="hover:text-gold-300 transition">{{ i18n.t('nav.calculator') }}</a></li>
+        <li><a href="#chart" class="hover:text-gold-300 transition">{{ i18n.t('nav.chart') }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- الحقوق -->
+  <div class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-5 text-center text-sm">
+      <p>© {{ year }} {{ i18n.t('brand') }} · {{ i18n.t('footer.rights') }}</p>
+      <p class="mt-1 text-xs text-gold-400/80">{{ i18n.t('footer.note') }}</p>
+    </div>
   </div>
 </footer>

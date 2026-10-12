@@ -1,29 +1,58 @@
-<section id="history" class="max-w-6xl mx-auto px-4 py-12">
-  <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">سجل الأسعار</h2>
-  <p class="text-gray-600 mb-6">أسعار الغرام لآخر 30 يومًا بالريال العُماني.</p>
+<section id="history" class="max-w-6xl mx-auto px-4 py-16">
 
-  <!-- overflow-x-auto: تمرير أفقي في الشاشات الصغيرة -->
-  <div class="overflow-x-auto bg-white rounded-2xl shadow-md">
-    <table class="w-full text-center min-w-[500px]">
-      <thead class="bg-yellow-600 text-white">
-        <tr>
-          <th class="p-3">التاريخ</th>
-          <th class="p-3">18 قيراط</th>
-          <th class="p-3">21 قيراط</th>
-          <th class="p-3">22 قيراط</th>
-          <th class="p-3">24 قيراط</th>
+  <!-- العنوان -->
+  <div class="mb-10">
+    <h2 class="text-3xl md:text-4xl font-black text-gold mb-3">{{ i18n.t('table.title') }}</h2>
+    <div class="w-16 h-1 rounded-full bg-linear-to-r from-gold-300 to-gold-600 mb-4"></div>
+    <p class="text-ink-700/70 dark:text-gray-400">{{ i18n.t('table.desc') }}</p>
+  </div>
+
+  <!-- الجدول: overflow-x-auto = تمرير أفقي في الشاشات الصغيرة -->
+  <div class="overflow-x-auto rounded-3xl border border-black/5 dark:border-white/10
+              bg-white dark:bg-ink-800 shadow-xl shadow-black/5">
+    <table class="w-full min-w-[640px] text-center">
+
+
+      <thead>
+        <tr class="bg-linear-to-r from-gold-500 to-gold-700 text-ink-900">
+          <th class="p-4 font-bold text-start ps-6">{{ i18n.t('table.date') }}</th>
+          @for (k of karats; track k) {
+            <th class="p-4 font-bold">{{ k }} {{ i18n.t('table.k') }}</th>
+          }
         </tr>
       </thead>
+
       <tbody>
-        @for (row of rows; track row.date) {
-          <tr class="odd:bg-white even:bg-yellow-50 border-b border-yellow-100">
-            <td class="p-3 font-semibold">{{ row.date | date: 'yyyy/MM/dd' }}</td>
+              @for (row of visibleRows(); track row.date; let first = $first) {          <tr class="border-b border-black/5 dark:border-white/5 transition
+                     odd:bg-white even:bg-gold-500/5
+                     dark:odd:bg-ink-800 dark:even:bg-white/[0.03]
+                     hover:bg-gold-500/15 dark:hover:bg-gold-500/10">
+
+            <td class="p-4 ps-6 text-start font-semibold text-ink-900 dark:text-white">
+              <span dir="ltr" class="inline-block">{{ row.date | date: 'yyyy/MM/dd' }}</span>
+              @if (first) {
+                <span class="ms-2 px-2 py-0.5 rounded-full text-xs font-bold text-ink-900
+                             bg-linear-to-br from-gold-300 to-gold-600">
+                  {{ i18n.t('table.today') }}
+                </span>
+              }
+            </td>
+
             @for (price of row.prices; track $index) {
-              <td class="p-3">{{ price | number: '1.3-3' }}</td>
+              <td class="p-4 text-ink-700 dark:text-gray-300" dir="ltr">
+                {{ price | number: '1.3-3' }}
+              </td>
             }
           </tr>
         }
       </tbody>
     </table>
+  </div>
+    <div class="mt-6 text-center">
+    <button type="button" (click)="expanded.set(!expanded())"
+            class="px-6 py-2.5 rounded-full font-bold border border-gold-500/50
+                   text-gold-700 dark:text-gold-300 hover:bg-gold-500/15 transition">
+      {{ expanded() ? i18n.t('table.less') : i18n.t('table.more') }}
+    </button>
   </div>
 </section>

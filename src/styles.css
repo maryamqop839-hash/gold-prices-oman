@@ -1,3 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ألواننا الخاصة: بعد كذا نقدر نكتب bg-gold-500 و bg-ink-900 */
+@theme {
+  --font-sans: 'Tajawal', system-ui, sans-serif;
+
+  --color-gold-300: #f6dc8a;
+  --color-gold-400: #efc65a;
+  --color-gold-500: #d4a437;
+  --color-gold-600: #b8861f;
+  --color-gold-700: #8a6215;
+
+  --color-ink-900: #0b0b10;
+  --color-ink-800: #14141b;
+  --color-ink-700: #1e1e28;
+
+  --color-ivory: #faf7f0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* عشان الهيدر الثابت ما يغطي عنوان القسم */
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-ivory);
+  color: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: var(--color-ink-900);
+  color: #fff;
+}
+
+/* نص بتدرج ذهبي */
+.text-gold {
+  background: linear-gradient(135deg, var(--color-gold-300), var(--color-gold-500), var(--color-gold-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* حركة طفو هادئة للكرات الضوئية */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+/* احترام من يفضّل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float { animation: none; }
+}
