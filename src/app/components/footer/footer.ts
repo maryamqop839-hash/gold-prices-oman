@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { I18n } from '../../services/i18n';
 
 @Component({
-  imports: [],
   selector: 'app-footer',
-  styleUrl: './footer.css',
+  imports: [],
   templateUrl: './footer.html',
+  styleUrl: './footer.css',
 })
-export class Footer {}
+export class Footer {
+  i18n = inject(I18n);
+  year = new Date().getFullYear();
+}
